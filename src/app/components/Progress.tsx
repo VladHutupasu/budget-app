@@ -22,7 +22,7 @@ export default function Progress({ value, remaining, total }: ProgressProps) {
         {value}%
       </div>
       <p className="mt-2">
-        Remaining: €{remaining.toFixed(2)} / ${total.toFixed(2)}
+        Remaining: €{remaining.toFixed(2)} / €{total.toFixed(2)}
       </p>
     </div>
   );
