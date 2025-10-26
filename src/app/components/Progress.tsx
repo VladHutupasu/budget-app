@@ -1,3 +1,5 @@
+"use client";
+
 interface ProgressProps {
   value: number;
   remaining: number;
