@@ -34,6 +34,7 @@ export default function Input({ onAdd }: InputProps) {
       <label className="input">
         <input
           type="number"
+          inputMode="decimal"
           placeholder="Amount"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}

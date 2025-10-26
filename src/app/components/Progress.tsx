@@ -10,7 +10,7 @@ export default function Progress({ value, remaining, total }: ProgressProps) {
   return (
     <div className="w-full max-w-md text-center">
       <div
-        className="radial-progress bg-primary text-primary-content border-primary border-4 text-2xl"
+        className="radial-progress bg-pink-700 text-stone-200 border-pink-300 border-4"
         style={
           {
             "--value": value,
@@ -22,7 +22,7 @@ export default function Progress({ value, remaining, total }: ProgressProps) {
         {value}%
       </div>
       <p className="mt-2">
-        Remaining: ${remaining.toFixed(2)} / ${total.toFixed(2)}
+        Remaining: €{remaining.toFixed(2)} / ${total.toFixed(2)}
       </p>
     </div>
   );
