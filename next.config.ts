@@ -1,16 +1,7 @@
-import withPWA from "next-pwa";
+import type { NextConfig } from "next";
 
-const isProduction = process.env.NODE_ENV === "production";
-
-const config = {
-  reactStrictMode: false,
-  swcMinify: true, // Enable SWC minification for improved performance
+const nextConfig: NextConfig = {
+  /* config options here */
 };
-
-const nextConfig = withPWA({
-  dest: "public",
-  register: true, // Register the PWA service worker
-  disable: !isProduction,
-})(config);
 
 export default nextConfig;
