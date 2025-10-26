@@ -35,6 +35,7 @@ export default function Input({ onAdd }: InputProps) {
         <input
           type="number"
           inputMode="decimal"
+          pattern="[0-9,]*"
           placeholder="Amount"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
