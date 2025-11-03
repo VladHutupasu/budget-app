@@ -1,6 +1,6 @@
 "use client";
 
-import { BudgetItem } from "./Main";
+import { BudgetItem } from "../types/budgetItem";
 
 interface TimelineProps {
   items: BudgetItem[];
