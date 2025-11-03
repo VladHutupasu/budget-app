@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { BudgetItem } from "./Main";
+import { BudgetItem } from "../types/budgetItem";
 
 interface InputProps {
-  onAdd: (item: Omit<BudgetItem, "id" | "date">) => void;
+  onAdd: (item: Omit<BudgetItem, "id" | "date">) => Promise<void>;
 }
 
 export default function Input({ onAdd }: InputProps) {

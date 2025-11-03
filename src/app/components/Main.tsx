@@ -1,54 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import Input from "./Input";
 import Progress from "./Progress";
 import Timeline from "./Timeline";
-
-export interface BudgetItem {
-  id: number;
-  name: string;
-  amount: number;
-  date: string; // ISO date string
-}
+import { useBudgetData } from "../hooks/useBudgetData";
+import SpeedDial from "./SpeedDial";
 
 export default function Main() {
-  const [items, setItems] = useState<BudgetItem[]>([]);
-  const [budgetLimit, setBudgetLimit] = useState(300); // Example total budget
+  const [budgetLimit, setBudgetLimit] = useState(300);
+  const { items, addItem, removeItem, clearAllitems } = useBudgetData();
 
-  // Use a key that includes the current month, so data resets automatically monthly
-  const storageKey = `budget-items-${new Date().getFullYear()}-${
-    new Date().getMonth() + 1
-  }`;
+  const { totalExpenses, remaining, progressPercentage } = useMemo(() => {
+    const total = items.reduce((sum, item) => sum + item.amount, 0);
+    const rem = budgetLimit - total;
+    const percentage = Math.round((total / budgetLimit) * 100);
 
-  // Load from localStorage when page loads
-  useEffect(() => {
-    const saved = localStorage.getItem(storageKey);
-    if (saved) setItems(JSON.parse(saved));
-  }, [storageKey]);
-
-  // Save to localStorage whenever items change
-  useEffect(() => {
-    localStorage.setItem(storageKey, JSON.stringify(items));
-  }, [items, storageKey]);
-
-  const totalExpenses = items.reduce((sum, i) => sum + i.amount, 0);
-
-  const remaining = budgetLimit - totalExpenses;
-
-  // Handle adding a new item (from Input)
-  const addItem = (item: Omit<BudgetItem, "id" | "date">) => {
-    const newItem: BudgetItem = {
-      id: Date.now(),
-      date: new Date().toISOString(),
-      ...item,
+    return {
+      totalExpenses: total,
+      remaining: rem,
+      progressPercentage: percentage,
     };
-    setItems((prev) => [...prev, newItem]);
-  };
-
-  const removeItem = (id: number) => {
-    setItems((prev) => prev.filter((i) => i.id !== id));
-  };
+  }, [items, budgetLimit]);
 
   return (
     <div className="flex min-h-screen items-center justify-center font-knewave">
@@ -56,7 +29,7 @@ export default function Main() {
         <h1 className="text-4xl">Budget app</h1>
 
         <Progress
-          value={Math.min(100, Math.round((totalExpenses / budgetLimit) * 100))}
+          value={progressPercentage}
           remaining={remaining}
           total={budgetLimit}
         />
@@ -64,6 +37,7 @@ export default function Main() {
         <Input onAdd={addItem} />
 
         <Timeline items={items} onRemove={removeItem} />
+        <SpeedDial onClose={clearAllitems} />
       </main>
     </div>
   );
